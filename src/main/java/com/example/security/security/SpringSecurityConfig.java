@@ -24,13 +24,13 @@ public class SpringSecurityConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.csrf(Customizer.withDefaults())
+		http
 				.authorizeHttpRequests(
 						authorizeRequests -> authorizeRequests
 								.requestMatchers("/admin").hasRole("ADMIN")
-								.requestMatchers("/user").hasAnyRole("ADMIN","USER")
+								.requestMatchers("/user").hasRole("USER")
 								.anyRequest().authenticated())
-				.httpBasic(Customizer.withDefaults())
+			.httpBasic(Customizer.withDefaults())
 				.formLogin(
 						formLogin -> formLogin
 								.successHandler(new CustomAuthenticationSuccessHandler()))
@@ -49,12 +49,14 @@ public class SpringSecurityConfig {
 			@Value("${security.users.user2.roles}") String userRoles
 			) {
 		
-		UserDetails admin = User.withUsername("admin").password(passwordEncoder().encode("password"))
-				.roles("ADMIN")
+		UserDetails admin = User.withUsername(adminUsername).password(passwordEncoder().encode(adminPassword))
+				.roles(adminRoles.split(","))
 				.build();
-		UserDetails user = User.withUsername("user").password(passwordEncoder().encode("password")).roles("USER")
+		UserDetails user = User.withUsername(userUsername).password(passwordEncoder().encode(userPassword)).roles(userRoles)
 				.build();
 
+//		System.out.println(admin);
+//		System.out.println(user);
 		return new InMemoryUserDetailsManager(admin, user);
 	}
 }
