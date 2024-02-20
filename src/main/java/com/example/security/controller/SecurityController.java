@@ -18,10 +18,10 @@ public class SecurityController {
 		ModelAndView mav = new ModelAndView("AdminPage");
 		return mav;
 	}
-	@GetMapping("/customLogin")
-	public ModelAndView login() {
-		ModelAndView mav = new ModelAndView("LoginPage");
-		return mav;
-	}
+//	@GetMapping("/customLogin")
+//	public ModelAndView login() {
+//		ModelAndView mav = new ModelAndView("LoginPage");
+//		return mav;
+//	}
 
 }
